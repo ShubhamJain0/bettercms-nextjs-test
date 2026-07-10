@@ -49,10 +49,10 @@ export async function createAuthor(
       contentModelId: model.id,
       slug: slugify(name),
       status: "published",
-      data,
+      data: { ...data },
     });
 
-    revalidateTag("authors");
+    revalidateTag("authors", "max");
     return { success: `Created "${name}".` };
   } catch (error) {
     return actionError(
@@ -81,10 +81,10 @@ export async function updateAuthor(
 
     await mgmt.updateEntry(entry.id, {
       status: "published",
-      data,
+      data: { ...data },
     });
 
-    revalidateTag("authors");
+    revalidateTag("authors", "max");
     return { success: `Updated "${name}".` };
   } catch (error) {
     return actionError(error, "Failed to update author.");
@@ -106,7 +106,7 @@ export async function deleteAuthor(
     const mgmt = getManagementClient();
 
     await mgmt.deleteEntry(entry.id);
-    revalidateTag("authors");
+    revalidateTag("authors", "max");
 
     return { success: `Deleted "${slug}".` };
   } catch (error) {

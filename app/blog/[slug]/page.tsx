@@ -9,6 +9,7 @@ import {
 } from "@/app/components/blog-post-utils";
 import { bcms } from "@/src/bettercms.bindings.generated";
 import { cms } from "@/src/bettercms";
+import type { BlogPostFields } from "@/src/bettercms.generated";
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -16,7 +17,7 @@ type BlogPostPageProps = {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await cms.getEntry(slug, {
+  const post = await cms.getEntry<BlogPostFields>(slug, {
     revalidate: 60,
     tags: ["blog-post", `blog-post:${slug}`],
     depth: 1,

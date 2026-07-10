@@ -3,7 +3,6 @@
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
-import type { BlogPostFields } from "@/src/bettercms.generated";
 import {
   getEntryIdBySlug,
   getManagementClient,
@@ -42,13 +41,13 @@ function buildBlogPostData(formData: FormData) {
       : { html: `<p>${contentRaw}</p>` };
   }
 
-  return { name, data: data as BlogPostFields };
+  return { name, data };
 }
 
 function revalidateBlogPost(slug?: string) {
-  revalidateTag("blog-post");
+  revalidateTag("blog-post", "max");
   if (slug) {
-    revalidateTag(`blog-post:${slug}`);
+    revalidateTag(`blog-post:${slug}`, "max");
   }
 }
 
