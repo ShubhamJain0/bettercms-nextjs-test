@@ -60,7 +60,9 @@ export function BlogPostRow({ post }: { post: BlogPostItem }) {
   }
 
   const author = getAuthorLabel(post.fields);
-  const publishedDate = formatPublishedDate(post.publishedAt);
+  const publishedDate = formatPublishedDate(
+    post.fields.published ?? post.publishedAt,
+  );
   const preview = getContentPreview(post.fields);
 
   return (
@@ -102,8 +104,12 @@ export function BlogPostRow({ post }: { post: BlogPostItem }) {
               </p>
             ) : null}
             <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
+              {post.fields.blog_number != null ? (
+                <span>#{post.fields.blog_number}</span>
+              ) : null}
               {publishedDate ? <span>{publishedDate}</span> : null}
               {author ? <span>{author}</span> : null}
+              {post.fields.is_featured ? <span>Featured</span> : null}
             </div>
           </div>
 

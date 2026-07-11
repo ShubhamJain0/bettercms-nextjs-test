@@ -29,7 +29,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const { fields } = post;
   const author = getAuthorLabel(fields);
-  const publishedDate = formatPublishedDate(post.publishedAt);
+  const publishedDate = formatPublishedDate(fields.published ?? post.publishedAt);
   const thumbnailUrl = fields.thumbnail?.url;
   const thumbnailAlt =
     fields.thumbnail?.altText ?? fields.name ?? "Post thumbnail";
@@ -46,8 +46,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </Link>
 
           <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
-            {publishedDate ? <span>{publishedDate}</span> : null}
+            {fields.blog_number != null ? (
+              <span {...bcms["blog-post"].blog_number}>#{fields.blog_number}</span>
+            ) : null}
+            {publishedDate ? (
+              <span {...bcms["blog-post"].published}>{publishedDate}</span>
+            ) : null}
             {author ? <span {...bcms["blog-post"].author}>{author}</span> : null}
+            {fields.is_featured ? (
+              <span {...bcms["blog-post"].is_featured}>Featured</span>
+            ) : null}
           </div>
 
           <h1

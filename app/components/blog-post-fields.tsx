@@ -9,7 +9,7 @@ export const blogFieldClassName =
   "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100";
 
 type BlogPostFieldsProps = {
-  fields?: BlogPostFields;
+  fields?: Partial<BlogPostFields>;
   idPrefix?: string;
 };
 
@@ -43,6 +43,7 @@ export function BlogPostFieldsForm({
           id={`${idPrefix}-content`}
           name="content"
           placeholder="HTML or plain text"
+          required
         />
       </label>
 
@@ -70,8 +71,55 @@ export function BlogPostFieldsForm({
             id={`${idPrefix}-thumbnail`}
             name="thumbnail"
             placeholder="https://cdn.bettercms.ai/..."
+            required
             type="url"
           />
+        </label>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <label className="space-y-1.5 text-sm">
+          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+            Published
+          </span>
+          <input
+            className={blogFieldClassName}
+            defaultValue={fields?.published ?? ""}
+            id={`${idPrefix}-published`}
+            name="published"
+            type="date"
+          />
+        </label>
+
+        <label className="space-y-1.5 text-sm">
+          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+            Blog number
+          </span>
+          <input
+            className={blogFieldClassName}
+            defaultValue={
+              fields?.blog_number != null ? String(fields.blog_number) : ""
+            }
+            id={`${idPrefix}-blog-number`}
+            min={0}
+            name="blog_number"
+            placeholder="1"
+            type="number"
+          />
+        </label>
+
+        <label className="flex items-end gap-2 pb-2 text-sm">
+          <input
+            className="size-4 rounded border-zinc-300"
+            defaultChecked={Boolean(fields?.is_featured)}
+            id={`${idPrefix}-is-featured`}
+            name="is_featured"
+            type="checkbox"
+            value="true"
+          />
+          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+            Featured
+          </span>
         </label>
       </div>
     </div>

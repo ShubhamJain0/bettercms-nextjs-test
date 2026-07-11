@@ -67,6 +67,9 @@ export const bcms = {
     thumbnail: bcmsField("thumbnail", "image"),
     content: bcmsField("content", "richtext"),
     author: bcmsField("author", "text"),
+    published: bcmsField("published", "date"),
+    blog_number: bcmsField("blog_number", "number"),
+    is_featured: bcmsField("is_featured", "boolean"),
   },
   "case-study": {
     title: bcmsField("title", "text"),

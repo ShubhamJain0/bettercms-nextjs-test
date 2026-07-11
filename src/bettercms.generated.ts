@@ -117,13 +117,19 @@ export interface AuthorsFields {
  */
 export interface BlogPostFields {
   /** Name */
-  readonly name?: string;
+  readonly name: string;
   /** Thumbnail */
-  readonly thumbnail?: BetterCMSImage;
+  readonly thumbnail: BetterCMSImage;
   /** Content */
-  readonly content?: RichText;
+  readonly content: RichText;
   /** Author */
   readonly author?: string;
+  /** Published */
+  readonly published?: string;
+  /** Blog Number */
+  readonly blog_number?: number;
+  /** Is Featured */
+  readonly is_featured?: boolean;
 }
 
 /**

@@ -30,11 +30,24 @@ function buildBlogPostData(formData: FormData) {
   const author = formData.get("author")?.toString().trim();
   const thumbnail = formData.get("thumbnail")?.toString().trim();
   const contentRaw = formData.get("content")?.toString().trim();
+  const published = formData.get("published")?.toString().trim();
+  const blogNumberRaw = formData.get("blog_number")?.toString().trim();
+  const isFeatured = formData.get("is_featured") === "true";
 
-  const data: Record<string, unknown> = { name };
+  const data: Record<string, unknown> = {
+    name,
+    is_featured: isFeatured,
+  };
 
   if (author) data.author = author;
   if (thumbnail) data.thumbnail = thumbnail;
+  if (published) data.published = published;
+  if (blogNumberRaw) {
+    const blogNumber = Number(blogNumberRaw);
+    if (!Number.isNaN(blogNumber)) {
+      data.blog_number = blogNumber;
+    }
+  }
   if (contentRaw) {
     data.content = contentRaw.includes("<")
       ? { html: contentRaw }

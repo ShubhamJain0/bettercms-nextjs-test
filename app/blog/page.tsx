@@ -9,8 +9,8 @@ export default async function BlogPage() {
   });
 
   const sortedPosts = [...posts].sort((a, b) => {
-    const aDate = a.publishedAt ?? "";
-    const bDate = b.publishedAt ?? "";
+    const aDate = a.fields.published ?? a.publishedAt ?? "";
+    const bDate = b.fields.published ?? b.publishedAt ?? "";
     return bDate.localeCompare(aDate);
   });
 

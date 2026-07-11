@@ -8,7 +8,7 @@ type HydratedAuthor = {
   id?: string;
 };
 
-export function getAuthorInputValue(fields: BlogPostFields) {
+export function getAuthorInputValue(fields: Partial<BlogPostFields>) {
   const author = fields.author as string | HydratedAuthor | undefined;
 
   if (!author) {
@@ -22,7 +22,7 @@ export function getAuthorInputValue(fields: BlogPostFields) {
   return author.id ?? author.data?.name ?? author.slug ?? "";
 }
 
-export function getAuthorLabel(fields: BlogPostFields) {
+export function getAuthorLabel(fields: Partial<BlogPostFields>) {
   const author = fields.author as string | HydratedAuthor | undefined;
 
   if (!author) {
@@ -36,7 +36,7 @@ export function getAuthorLabel(fields: BlogPostFields) {
   return author.data?.name ?? author.slug ?? null;
 }
 
-export function getContentPreview(fields: BlogPostFields) {
+export function getContentPreview(fields: Partial<BlogPostFields>) {
   const html = fields.content?.html ?? "";
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
