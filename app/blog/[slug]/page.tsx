@@ -35,61 +35,70 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     fields.thumbnail?.altText ?? fields.name ?? "Post thumbnail";
 
   return (
-    <div className="flex flex-1 justify-center bg-zinc-50 px-6 py-16 font-sans dark:bg-black">
-      <article className="flex w-full max-w-3xl flex-col gap-8">
-        <div className="space-y-4">
-          <Link
-            className="text-sm font-medium text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
-            href="/blog"
-          >
-            ← All posts
-          </Link>
-
-          <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
-            {fields.blog_number != null ? (
-              <span {...bcms["blog-post"].blog_number}>#{fields.blog_number}</span>
-            ) : null}
-            {publishedDate ? (
-              <span {...bcms["blog-post"].published}>{publishedDate}</span>
-            ) : null}
-            {author ? <span {...bcms["blog-post"].author}>{author}</span> : null}
-            {fields.is_featured ? (
-              <span {...bcms["blog-post"].is_featured}>Featured</span>
-            ) : null}
-          </div>
-
-          <h1
-            {...bcms["blog-post"].name}
-            className="text-4xl font-semibold tracking-tight text-zinc-950 dark:text-zinc-50"
-          >
-            {fields.name}
-          </h1>
-        </div>
-
-        {thumbnailUrl ? (
-          <div className="overflow-hidden rounded-3xl border border-zinc-200 dark:border-zinc-800">
+    <main className="flex-1">
+      <article>
+        <header className="relative min-h-[58vh] overflow-hidden">
+          {thumbnailUrl ? (
             <Image
               {...bcms["blog-post"].thumbnail}
               alt={thumbnailAlt}
-              className="h-auto w-full object-cover"
-              height={fields.thumbnail?.height ?? 720}
+              className="reveal-slow absolute inset-0 h-full w-full object-cover"
+              height={fields.thumbnail?.height ?? 1200}
               priority
               src={thumbnailUrl}
-              width={fields.thumbnail?.width ?? 1280}
+              width={fields.thumbnail?.width ?? 2000}
             />
+          ) : (
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,#0f3d2e,#1f6f54)]" />
+          )}
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,43,32,0.25)_0%,rgba(16,42,67,0.82)_100%)]" />
+
+          <div className="relative mx-auto flex min-h-[58vh] w-full max-w-4xl flex-col justify-end px-6 pb-14 pt-24">
+            <Link
+              className="reveal text-sm font-semibold uppercase tracking-[0.16em] text-white/75 transition hover:text-white"
+              href="/blog"
+            >
+              ← Journal
+            </Link>
+            <div className="reveal-delay mt-8 flex flex-wrap gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">
+              {fields.blog_number != null ? (
+                <span {...bcms["blog-post"].blog_number}>
+                  No. {fields.blog_number}
+                </span>
+              ) : null}
+              {publishedDate ? (
+                <span {...bcms["blog-post"].published}>{publishedDate}</span>
+              ) : null}
+              {author ? (
+                <span {...bcms["blog-post"].author}>{author}</span>
+              ) : null}
+              {fields.is_featured ? (
+                <span {...bcms["blog-post"].is_featured}>Featured</span>
+              ) : null}
+            </div>
+            <h1
+              {...bcms["blog-post"].name}
+              className="reveal-delay display mt-5 max-w-3xl text-4xl font-bold text-white sm:text-6xl"
+            >
+              {fields.name}
+            </h1>
           </div>
-        ) : null}
+        </header>
 
-        {fields.content?.html ? (
-          <div
-            {...bcms["blog-post"].content}
-            className="space-y-4 text-base leading-8 text-zinc-700 dark:text-zinc-300 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-zinc-950 [&_h2]:dark:text-zinc-50 [&_p]:leading-8"
-            dangerouslySetInnerHTML={{ __html: fields.content.html }}
-          />
-        ) : null}
+        <div className="mx-auto w-full max-w-3xl px-6 py-16">
+          {fields.content?.html ? (
+            <div
+              {...bcms["blog-post"].content}
+              className="space-y-6 text-xl leading-9 text-[var(--ink)] [&_a]:text-[var(--brand)] [&_a]:underline [&_h2]:display [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:text-[var(--brand)] [&_p]:leading-9"
+              dangerouslySetInnerHTML={{ __html: fields.content.html }}
+            />
+          ) : null}
 
-        <BlogPostDetailActions fields={fields} slug={slug} />
+          <div className="mt-16">
+            <BlogPostDetailActions fields={fields} slug={slug} />
+          </div>
+        </div>
       </article>
-    </div>
+    </main>
   );
 }

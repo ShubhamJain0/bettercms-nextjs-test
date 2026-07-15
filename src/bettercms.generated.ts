@@ -176,74 +176,47 @@ export interface ContactFields {
 /**
  * Home
  * Model slug: `home`
+ * Delivery shape uses zone containers (nonRepeatable / repeatable).
  */
 export interface HomeFields {
-  /** Eyebrow */
-  readonly eyebrow?: string;
-  /** Hero Title */
-  readonly heroTitle?: string;
-  /** Hero Subtitle */
-  readonly heroSubtitle?: string;
-  /** Hero Image */
-  readonly heroImage?: BetterCMSImage;
-  /** Primary Cta Text */
-  readonly primaryCtaText?: string;
-  /** Primary Cta Href */
-  readonly primaryCtaHref?: string;
-  /** Secondary Cta Text */
-  readonly secondaryCtaText?: string;
-  /** Secondary Cta Href */
-  readonly secondaryCtaHref?: string;
-  /** Stats */
-  readonly stats?: {
-    readonly repeatable?: Array<{
-      /** Value */
-      readonly value?: string;
-      /** Label */
-      readonly label?: string;
-    }>;
+  readonly hero?: {
+    readonly nonRepeatable?: {
+      readonly eyebrow?: string;
+      readonly heroTitle?: string;
+      readonly heroSubtitle?: string;
+      readonly primaryCtaText?: string;
+      readonly primaryCtaHref?: string;
+      readonly secondaryCtaText?: string;
+      readonly secondaryCtaHref?: string;
+    };
   };
-  /** Features Heading */
-  readonly featuresHeading?: string;
-  /** Features */
   readonly features?: {
-    readonly repeatable?: Array<{
-      /** Icon */
-      readonly icon?: string;
-      /** Title */
-      readonly title?: string;
-      /** Body */
-      readonly body?: string;
+    readonly repeatable?: ReadonlyArray<{
+      readonly heading?: string;
+      readonly description?: string;
     }>;
   };
-  /** Logos */
-  readonly logos?: {
-    readonly repeatable?: Array<{
-      /** Name */
-      readonly name?: string;
+  readonly stats?: {
+    readonly repeatable?: ReadonlyArray<{
+      readonly statValue?: string;
+      readonly description?: string;
     }>;
   };
-  /** Testimonials */
   readonly testimonials?: {
-    readonly repeatable?: Array<{
-      /** Quote */
-      readonly quote?: string;
-      /** Author Name */
-      readonly authorName?: string;
-      /** Author Role */
-      readonly authorRole?: string;
-      /** Avatar */
-      readonly avatar?: BetterCMSImage;
+    readonly repeatable?: ReadonlyArray<{
+      readonly testimonial?: string;
+      readonly clientName?: string;
+      readonly designation?: string;
     }>;
   };
-  /** Cta Heading */
-  readonly ctaHeading?: string;
-  /** Cta Body */
-  readonly ctaBody?: string;
-  /** Cta Button Text */
-  readonly ctaButtonText?: string;
-  /** Cta Button Href */
-  readonly ctaButtonHref?: string;
+  readonly cta?: {
+    readonly nonRepeatable?: {
+      readonly ctaHeading?: string;
+      readonly ctaBody?: string;
+      readonly ctaButtonText?: string;
+      readonly ctaButtonHref?: string;
+    };
+  };
 }
 
 /**

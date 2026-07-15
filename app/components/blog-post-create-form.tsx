@@ -12,15 +12,11 @@ const initialState: BlogPostActionState = {};
 
 function StatusText({ state }: { state: BlogPostActionState }) {
   if (state.error) {
-    return <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>;
+    return <p className="text-sm text-red-700">{state.error}</p>;
   }
 
   if (state.success) {
-    return (
-      <p className="text-sm text-emerald-600 dark:text-emerald-400">
-        {state.success}
-      </p>
-    );
+    return <p className="text-sm text-[var(--brand)]">{state.success}</p>;
   }
 
   return null;
@@ -30,21 +26,23 @@ export function BlogPostCreateForm() {
   const [state, action, pending] = useActionState(createBlogPost, initialState);
 
   return (
-    <form
-      action={action}
-      className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 dark:border-zinc-800 dark:bg-zinc-900"
-    >
-      <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-        Write a new post
-      </h2>
+    <form action={action} className="space-y-5">
+      <div>
+        <h2 className="display text-2xl font-bold text-[var(--brand)]">
+          Publish a new story
+        </h2>
+        <p className="mt-2 text-base leading-7 text-[var(--ink-soft)]">
+          Writes directly to your BetterCMS <code>blog-post</code> collection.
+        </p>
+      </div>
       <BlogPostFieldsForm idPrefix="create-blog" />
       <div className="flex flex-wrap items-center gap-3">
         <button
-          className="rounded-full bg-zinc-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          className="bg-[var(--brand)] px-5 py-3 text-sm font-semibold uppercase tracking-[0.16em] text-white transition hover:bg-[var(--brand-deep)] disabled:opacity-60"
           disabled={pending}
           type="submit"
         >
-          {pending ? "Publishing..." : "Publish post"}
+          {pending ? "Publishing..." : "Publish"}
         </button>
         <StatusText state={state} />
       </div>

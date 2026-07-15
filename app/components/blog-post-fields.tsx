@@ -6,7 +6,7 @@ import {
 } from "@/app/components/blog-post-utils";
 
 export const blogFieldClassName =
-  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100";
+  "w-full border border-[var(--line)] bg-[var(--paper)] px-3 py-2.5 text-base text-[var(--ink)] outline-none transition focus:border-[var(--brand)]";
 
 type BlogPostFieldsProps = {
   fields?: Partial<BlogPostFields>;
@@ -20,7 +20,7 @@ export function BlogPostFieldsForm({
   return (
     <div className="grid gap-4">
       <label className="space-y-1.5 text-sm">
-        <span className="font-medium text-zinc-700 dark:text-zinc-200">
+        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
           Name
         </span>
         <input
@@ -34,11 +34,11 @@ export function BlogPostFieldsForm({
       </label>
 
       <label className="space-y-1.5 text-sm">
-        <span className="font-medium text-zinc-700 dark:text-zinc-200">
+        <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
           Content
         </span>
         <textarea
-          className={`${blogFieldClassName} min-h-40 font-mono`}
+          className={`${blogFieldClassName} min-h-40 font-mono text-sm`}
           defaultValue={fields?.content?.html ?? getContentPreview(fields ?? {})}
           id={`${idPrefix}-content`}
           name="content"
@@ -49,7 +49,7 @@ export function BlogPostFieldsForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-1.5 text-sm">
-          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
             Author
           </span>
           <input
@@ -62,7 +62,7 @@ export function BlogPostFieldsForm({
         </label>
 
         <label className="space-y-1.5 text-sm">
-          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
             Thumbnail URL
           </span>
           <input
@@ -79,7 +79,7 @@ export function BlogPostFieldsForm({
 
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="space-y-1.5 text-sm">
-          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
             Published
           </span>
           <input
@@ -92,7 +92,7 @@ export function BlogPostFieldsForm({
         </label>
 
         <label className="space-y-1.5 text-sm">
-          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
             Blog number
           </span>
           <input
@@ -110,14 +110,14 @@ export function BlogPostFieldsForm({
 
         <label className="flex items-end gap-2 pb-2 text-sm">
           <input
-            className="size-4 rounded border-zinc-300"
+            className="size-4 border-[var(--line)]"
             defaultChecked={Boolean(fields?.is_featured)}
             id={`${idPrefix}-is-featured`}
             name="is_featured"
             type="checkbox"
             value="true"
           />
-          <span className="font-medium text-zinc-700 dark:text-zinc-200">
+          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-[var(--ink-soft)]">
             Featured
           </span>
         </label>

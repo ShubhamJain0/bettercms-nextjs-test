@@ -15,15 +15,11 @@ const initialState: BlogPostActionState = {};
 
 function StatusText({ state }: { state: BlogPostActionState }) {
   if (state.error) {
-    return <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>;
+    return <p className="text-sm text-red-700">{state.error}</p>;
   }
 
   if (state.success) {
-    return (
-      <p className="text-sm text-emerald-600 dark:text-emerald-400">
-        {state.success}
-      </p>
-    );
+    return <p className="text-sm text-[var(--brand)]">{state.success}</p>;
   }
 
   return null;
@@ -55,63 +51,68 @@ export function BlogPostDetailActions({
   }
 
   return (
-    <section className="space-y-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 dark:border-zinc-800 dark:bg-zinc-900">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-          Manage post
-        </h2>
-        <Link
-          className="text-sm font-medium text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
-          href="/blog"
-        >
-          Back to all posts
-        </Link>
-      </div>
+    <details className="border border-[var(--line)] bg-[var(--paper-deep)] open:bg-[var(--paper)]">
+      <summary className="cursor-pointer list-none px-5 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--ink-soft)] transition hover:text-[var(--ink)]">
+        Studio tools · edit or delete
+      </summary>
+      <div className="space-y-4 border-t border-[var(--line)] px-5 py-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-[var(--ink-soft)]">
+            Manage this story without leaving the page.
+          </p>
+          <Link
+            className="text-sm font-semibold uppercase tracking-[0.14em] text-[var(--brand)]"
+            href="/blog"
+          >
+            Back to journal
+          </Link>
+        </div>
 
-      {isEditing ? (
-        <form action={updateAction} className="space-y-4">
-          <input name="slug" type="hidden" value={slug} />
-          <BlogPostFieldsForm fields={fields} idPrefix={`detail-${slug}`} />
+        {isEditing ? (
+          <form action={updateAction} className="space-y-4">
+            <input name="slug" type="hidden" value={slug} />
+            <BlogPostFieldsForm fields={fields} idPrefix={`detail-${slug}`} />
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                className="bg-[var(--brand)] px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[var(--brand-deep)] disabled:opacity-60"
+                disabled={updatePending}
+                type="submit"
+              >
+                {updatePending ? "Saving..." : "Save changes"}
+              </button>
+              <button
+                className="px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--ink-soft)]"
+                onClick={() => setIsEditing(false)}
+                type="button"
+              >
+                Cancel
+              </button>
+              <StatusText state={updateState} />
+            </div>
+          </form>
+        ) : (
           <div className="flex flex-wrap items-center gap-3">
             <button
-              className="rounded-full bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-              disabled={updatePending}
-              type="submit"
-            >
-              {updatePending ? "Saving..." : "Save changes"}
-            </button>
-            <button
-              className="rounded-full px-4 py-1.5 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-              onClick={() => setIsEditing(false)}
+              className="border border-[var(--line)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink)] transition hover:border-[var(--brand)]"
+              onClick={() => setIsEditing(true)}
               type="button"
             >
-              Cancel
+              Edit post
             </button>
-            <StatusText state={updateState} />
+            <form action={deleteAction}>
+              <input name="slug" type="hidden" value={slug} />
+              <button
+                className="border border-[var(--line)] px-4 py-2 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-soft)] transition hover:border-red-700 hover:text-red-700 disabled:opacity-60"
+                disabled={deletePending}
+                type="submit"
+              >
+                {deletePending ? "Deleting..." : "Delete post"}
+              </button>
+            </form>
+            <StatusText state={deleteState} />
           </div>
-        </form>
-      ) : (
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-800 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
-            onClick={() => setIsEditing(true)}
-            type="button"
-          >
-            Edit post
-          </button>
-          <form action={deleteAction}>
-            <input name="slug" type="hidden" value={slug} />
-            <button
-              className="rounded-full border border-red-300 px-4 py-1.5 text-sm font-medium text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-900 dark:text-red-300 dark:hover:bg-red-950/40"
-              disabled={deletePending}
-              type="submit"
-            >
-              {deletePending ? "Deleting..." : "Delete post"}
-            </button>
-          </form>
-          <StatusText state={deleteState} />
-        </div>
-      )}
-    </section>
+        )}
+      </div>
+    </details>
   );
 }

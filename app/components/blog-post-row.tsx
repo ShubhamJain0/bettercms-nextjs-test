@@ -12,7 +12,7 @@ import { BlogPostFieldsForm } from "@/app/components/blog-post-fields";
 import {
   formatPublishedDate,
   getAuthorLabel,
-  getContentPreview,
+  getExcerpt,
 } from "@/app/components/blog-post-utils";
 import type { BlogPostFields } from "@/src/bettercms.generated";
 
@@ -26,15 +26,11 @@ const initialState: BlogPostActionState = {};
 
 function StatusText({ state }: { state: BlogPostActionState }) {
   if (state.error) {
-    return <p className="text-sm text-red-600 dark:text-red-400">{state.error}</p>;
+    return <p className="text-sm text-red-700">{state.error}</p>;
   }
 
   if (state.success) {
-    return (
-      <p className="text-sm text-emerald-600 dark:text-emerald-400">
-        {state.success}
-      </p>
-    );
+    return <p className="text-sm text-[var(--brand)]">{state.success}</p>;
   }
 
   return null;
@@ -63,24 +59,24 @@ export function BlogPostRow({ post }: { post: BlogPostItem }) {
   const publishedDate = formatPublishedDate(
     post.fields.published ?? post.publishedAt,
   );
-  const preview = getContentPreview(post.fields);
+  const preview = getExcerpt(post.fields);
 
   return (
-    <article className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-950">
+    <article className="py-8">
       {isEditing ? (
         <form action={updateAction} className="space-y-4">
           <input name="slug" type="hidden" value={post.slug} />
           <BlogPostFieldsForm fields={post.fields} idPrefix={`edit-${post.slug}`} />
           <div className="flex flex-wrap items-center gap-3">
             <button
-              className="rounded-full bg-zinc-900 px-4 py-1.5 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+              className="bg-[var(--brand)] px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[var(--brand-deep)] disabled:opacity-60"
               disabled={updatePending}
               type="submit"
             >
               {updatePending ? "Saving..." : "Save"}
             </button>
             <button
-              className="rounded-full px-4 py-1.5 text-sm font-medium text-zinc-600 transition hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+              className="px-4 py-2 text-sm font-semibold uppercase tracking-[0.14em] text-[var(--ink-soft)] transition hover:text-[var(--ink)]"
               onClick={() => setIsEditing(false)}
               type="button"
             >
@@ -90,38 +86,29 @@ export function BlogPostRow({ post }: { post: BlogPostItem }) {
           </div>
         </form>
       ) : (
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0 space-y-2">
-            <Link
-              className="text-xl font-semibold text-zinc-950 transition hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
-              href={`/blog/${post.slug}`}
-            >
-              {post.fields.name}
-            </Link>
-            {preview ? (
-              <p className="line-clamp-2 text-sm leading-7 text-zinc-600 dark:text-zinc-300">
-                {preview}
-              </p>
-            ) : null}
-            <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
+        <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-start">
+          <Link className="group min-w-0" href={`/blog/${post.slug}`}>
+            <div className="flex flex-wrap gap-4 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--ink-soft)]">
               {post.fields.blog_number != null ? (
-                <span>#{post.fields.blog_number}</span>
+                <span>No. {post.fields.blog_number}</span>
               ) : null}
               {publishedDate ? <span>{publishedDate}</span> : null}
               {author ? <span>{author}</span> : null}
               {post.fields.is_featured ? <span>Featured</span> : null}
             </div>
-          </div>
+            <h3 className="display mt-3 text-3xl font-bold text-[var(--ink)] transition group-hover:text-[var(--brand)]">
+              {post.fields.name}
+            </h3>
+            {preview ? (
+              <p className="mt-3 max-w-2xl text-lg leading-8 text-[var(--ink-soft)]">
+                {preview}
+              </p>
+            ) : null}
+          </Link>
 
-          <div className="flex shrink-0 items-center gap-2">
-            <Link
-              className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-800 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
-              href={`/blog/${post.slug}`}
-            >
-              Read
-            </Link>
+          <div className="flex shrink-0 items-center gap-2 opacity-70 transition hover:opacity-100">
             <button
-              className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-800 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-900"
+              className="border border-[var(--line)] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-soft)] transition hover:border-[var(--ink)] hover:text-[var(--ink)]"
               onClick={() => setIsEditing(true)}
               type="button"
             >
@@ -130,11 +117,11 @@ export function BlogPostRow({ post }: { post: BlogPostItem }) {
             <form action={deleteAction}>
               <input name="slug" type="hidden" value={post.slug} />
               <button
-                className="rounded-full border border-red-300 px-4 py-1.5 text-sm font-medium text-red-700 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-900 dark:text-red-300 dark:hover:bg-red-950/40"
+                className="border border-[var(--line)] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--ink-soft)] transition hover:border-red-700 hover:text-red-700 disabled:opacity-60"
                 disabled={deletePending}
                 type="submit"
               >
-                {deletePending ? "Deleting..." : "Delete"}
+                {deletePending ? "..." : "Delete"}
               </button>
             </form>
           </div>

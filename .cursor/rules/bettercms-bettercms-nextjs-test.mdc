@@ -16,6 +16,7 @@ Send `X-API-Key: <key>` on every read. Mint a long-lived `content:read` key (rea
 
 - `authors` — page (dynamic) / model — fields: `name`, `bio`
 - `blog-post` — page (dynamic) / model — fields: `name`, `thumbnail`, `content`, `author`, `published`, `blog_number`, `is_featured`
+- `home` — singleton entry — zones: `hero` (nonRepeatable), `features`/`stats`/`testimonials` (repeatable), `cta` (nonRepeatable)
 ## Reading (Delivery API · base `https://api.bettercms.ai/api/v1/delivery/kotechashubham94gmailcom`)
 
 - Page: `GET .../content/{slug}`

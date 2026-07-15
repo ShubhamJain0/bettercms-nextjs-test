@@ -41,6 +41,15 @@ export function getContentPreview(fields: Partial<BlogPostFields>) {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+/** Short teaser for list pages — prefer an excerpt field when present. */
+export function getExcerpt(fields: Partial<BlogPostFields>, maxLength = 160) {
+  const explicit = (fields as { excerpt?: string }).excerpt?.trim();
+  const source = explicit || getContentPreview(fields);
+  if (!source) return "";
+  if (source.length <= maxLength) return source;
+  return `${source.slice(0, maxLength).trimEnd()}…`;
+}
+
 export function formatPublishedDate(value?: string | null) {
   if (!value) {
     return null;
